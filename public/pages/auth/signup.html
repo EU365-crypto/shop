@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="/assets/js/shared/session-security.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title data-i18n="HongKong Supermarket Sign Up">HongKong Supermarket Sign Up</title>
+
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <script src="/assets/js/shared/store-transition.js"></script>
+</head>
+
+<body class="signin-page signup-page">
+
+<section class="login-page">
+
+    <div class="login-box auth-header-return">
+
+        <div class="auth-heading-row">
+            <a class="auth-return-icon user-return-icon" href="/store.html" data-return-direct="true" aria-label="Return to Store" title="Return to Store"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></a>
+            <h1><span class="brand-link">HongKong Supermarket</span></h1>
+        </div>
+
+
+        <nav class="auth-form-tabs" aria-label="Account access">
+    <a href="/user-login.html" data-i18n="signIn">Sign In</a>
+    <a href="/signup.html" data-i18n="signUp" aria-current="page">Sign Up</a>
+</nav>
+
+
+        <!-- GOOGLE SIGN UP -->
+
+<a
+    class="social-login-button google-login"
+    href="/auth/google"
+>
+    <img class="google-brand-icon" src="/assets/images/google-logo.svg" width="20" height="20" alt="" aria-hidden="true">
+    <span data-i18n="googleSignup">Sign Up with Google</span>
+</a>
+
+
+<div class="login-divider">
+    <span data-i18n="or">or</span>
+</div>
+
+        <form class="signin-form" onsubmit="event.preventDefault(); signup();">
+        <label for="email" data-i18n="email">Email</label>
+        <div class="contact-email-field">
+        <input
+            id="email"
+            type="email"
+            autocomplete="email"
+            required
+            placeholder="Email" data-i18n-placeholder="email"
+        >
+
+        <span id="signup-countdown" class="verification-countdown" hidden></span>
+        <button id="signup-send" type="button" class="contact-code-send" aria-label="Send verification code" title="Send verification code">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+        </button>
+        </div>
+        <div class="security-send-feedback">
+            <p id="signup-send-message" role="status" aria-live="polite"></p>
+        </div>
+        <label for="signup-code" data-i18n="Verification Code">Verification Code</label>
+        <input id="signup-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required>
+        <label for="password" data-i18n="password">Password</label>
+        <input
+            id="password"
+            type="password"
+            autocomplete="new-password"
+            minlength="8"
+            required
+            placeholder="Password" data-i18n-placeholder="password"
+        >
+
+        <label for="confirm-password" data-i18n="confirmPassword">Confirm Password</label>
+        <input
+            id="confirm-password"
+            type="password"
+            autocomplete="new-password"
+            minlength="8"
+            required
+            placeholder="Confirm Password" data-i18n-placeholder="confirmPassword"
+        >
+
+        <label class="password-reveal"><input type="checkbox" autocomplete="off" onchange="document.getElementById('password').type = this.checked ? 'text' : 'password'; document.getElementById('confirm-password').type = this.checked ? 'text' : 'password';"><span data-i18n="Show Password">Show Password</span></label>
+        <button type="submit" class="signin-submit" data-i18n="signUp">
+            Sign Up
+        </button>
+
+        </form>
+        <p id="message" role="status" aria-live="polite"></p>
+
+    </div>
+
+</section>
+
+
+<script src="/assets/js/shared/language.js"></script>
+<script src="/assets/js/auth/auth-validation.js"></script>
+<script>
+
+async function signup() {
+
+    const email =
+        document.getElementById("email").value;
+
+    const password =
+        document.getElementById("password").value;
+
+    const confirmPassword =
+        document.getElementById(
+            "confirm-password"
+        ).value;
+
+    const message =
+        document.getElementById("message");
+
+
+    if (
+        email === "" ||
+        password === "" ||
+        confirmPassword === ""
+    ) {
+
+        setLocalizedMessage(message, "Please fill out all fields.");
+
+        return;
+    }
+
+
+    if (
+        password !== confirmPassword
+    ) {
+
+        setLocalizedMessage(message, "Passwords do not match.");
+
+        return;
+    }
+
+
+    if (
+        password.length < 8
+    ) {
+
+        setLocalizedMessage(message, "Password must be at least 8 characters.");
+
+        return;
+    }
+
+
+    setLocalizedMessage(message, "Creating account...");
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/signup",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            email: email,
+                            password: password,
+                            code: document.getElementById("signup-code").value.trim()
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        setLocalizedMessage(message, data.message);
+
+
+        if (response.ok) {
+            window.location.href = "/user-login.html";
+
+            document.getElementById(
+                "email"
+            ).value = "";
+
+            document.getElementById(
+                "password"
+            ).value = "";
+
+            document.getElementById(
+                "confirm-password"
+            ).value = "";
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        setLocalizedMessage(message, "Could not connect to server.");
+
+    }
+
+}
+
+</script>
+<script src="/assets/js/auth/signup-code.js"></script>
+
+</body>
+
+</html>

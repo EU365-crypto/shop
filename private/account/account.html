@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="/assets/js/shared/session-security.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title data-i18n="My Account - HongKong Supermarket">My Account - HongKong Supermarket</title>
+
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <script src="/assets/js/shared/store-transition.js"></script>
+</head>
+
+<body class="account-page">
+
+
+
+
+
+<section>
+
+    <div class="login-box">
+
+        <div class="account-heading">
+            <a class="cart-return-link account-return user-return-icon" href="/store.html" aria-label="Return" title="Return"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></a>
+            <h2 id="account-heading-title" data-i18n="myAccount">My Account</h2>
+        </div>
+
+        <form id="account-form" class="signin-form">
+            <label for="first-name" data-i18n="firstName">First Name</label>
+            <input id="first-name" name="firstName" autocomplete="given-name" maxlength="100" required>
+            <label for="last-name" data-i18n="lastName">Last Name</label>
+            <input id="last-name" name="lastName" autocomplete="family-name" maxlength="100" required>
+            <label for="account-email" data-i18n="email">Email</label>
+            <input id="account-email" type="email" autocomplete="email" readonly>
+            <div class="account-password-section">
+                <label for="account-password" data-i18n="password">Password</label>
+                <div class="account-password-controls">
+                    <input id="account-password" type="password" placeholder="••••••••" readonly aria-describedby="account-password-help" autocomplete="off">
+                    <a class="cart-return-link" href="/verify.html?purpose=change" data-i18n="Change Password">Change Password</a>
+                </div>
+                <p id="account-password-help" data-i18n="accountPasswordHelp">This is your sign-in password. It cannot be displayed. Change it using an emailed verification code.</p>
+            </div>
+            <label for="phone" data-i18n="optionalPhone">Phone Number (optional)</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" pattern="[+0-9\s().\-]+">
+            <div class="account-actions account-save-settings">
+                <button id="account-save" type="submit" disabled data-i18n="saveProfile">Save</button>
+                <button type="button" data-i18n="settings" aria-expanded="false" aria-controls="account-settings" onclick="const panel = document.getElementById('account-settings'); panel.hidden = !panel.hidden; this.setAttribute('aria-expanded', String(!panel.hidden));">Settings</button>
+            </div>
+            <div id="account-settings" hidden>
+
+                <fieldset class="account-background-options">
+                    <legend data-i18n="accountBackground">Background</legend>
+                    <label><input type="radio" name="account-background" value="classic" checked><span data-i18n="backgroundClassic">Classic</span></label>
+                    <label><input type="radio" name="account-background" value="green"><span data-i18n="backgroundGreen">Warm Pink & Purple</span></label>
+                    <label><input type="radio" name="account-background" value="blue"><span data-i18n="backgroundBlue">Soft Blue</span></label>
+                    <label><input type="radio" name="account-background" value="warm"><span data-i18n="backgroundWarm">Warm Cream</span></label>
+                </fieldset>
+            </div>
+            <p id="account-message" role="status" aria-live="polite"></p>
+        </form>
+
+
+    </div>
+
+</section>
+
+
+<script src="/assets/js/shared/language.js"></script>
+
+<script>
+
+async function loadUser() {
+
+    try {
+
+        const response =
+            await fetch("/api/me");
+
+        const data =
+            await response.json();
+
+
+        if (!data.loggedIn) {
+
+            window.location.href =
+                "/user-login.html";
+
+            return;
+        }
+
+
+        document.getElementById("account-email").value = data.user.email;
+        const profileResponse = await fetch("/api/profile");
+        const saved = await profileResponse.json();
+        if (!profileResponse.ok) throw new Error(saved.message || "Could not load account.");
+        document.getElementById("first-name").value = saved.profile.firstName;
+        setAccountGreeting(document.getElementById("account-heading-title"), saved.profile.firstName);
+        document.getElementById("last-name").value = saved.profile.lastName;
+        document.getElementById("phone").value = saved.profile.phone;
+        applyAccountBackground(saved.profile.background);
+        document.getElementById("account-save").disabled = false;
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+        setLocalizedMessage(document.getElementById("account-message"), "Could not load account.");
+
+    }
+
+}
+
+
+
+
+
+document.getElementById("account-form").addEventListener("submit", async event => {
+    event.preventDefault();
+    const button = document.getElementById("account-save");
+    if (button.disabled) return;
+    button.disabled = true;
+    try {
+        const response = await fetch("/api/profile", {
+            method: "PUT", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ firstName: document.getElementById("first-name").value,
+                lastName: document.getElementById("last-name").value, phone: document.getElementById("phone").value })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || "Could not save account.");
+        setAccountGreeting(document.getElementById("account-heading-title"), data.profile.firstName);
+        const message = document.getElementById("account-message");
+        message.removeAttribute("data-i18n");
+        message.textContent = "";
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            const pop = document.createElement("div");
+            pop.className = "hongkong-supermarket-navigation-logo";
+            pop.setAttribute("aria-hidden", "true");
+            pop.textContent = "SAVE";
+            document.body.appendChild(pop);
+            window.setTimeout(() => pop.remove(), 750);
+        }
+    } catch (error) {
+        setLocalizedMessage(document.getElementById("account-message"), error.message);
+    } finally { button.disabled = false; }
+});
+function applyAccountBackground(value) {
+    const theme = ["classic", "green", "blue", "warm"].includes(value) ? value : "classic";
+    window.applySiteBackground(theme);
+    document.querySelector('input[name="account-background"][value="' + theme + '"]').checked = true;
+}
+document.addEventListener("backgroundchange", () => {
+    const theme = document.documentElement.dataset.background || "classic";
+    document.querySelector('input[name="account-background"][value="' + theme + '"]').checked = true;
+});
+document.querySelectorAll('input[name="account-background"]').forEach(input => {
+    input.addEventListener("change", async () => {
+        const options = document.querySelectorAll('input[name="account-background"]');
+        options.forEach(option => { option.disabled = true; });
+        try {
+            const response = await fetch("/api/profile/background", {
+                method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ background: input.value })
+            });
+            if (!response.ok) throw new Error("Could not save account.");
+            const data = await response.json();
+            applyAccountBackground(data.profile.background);
+        } catch {
+            setLocalizedMessage(document.getElementById("account-message"), "Could not save account.");
+            await window.refreshSiteBackground();
+        } finally { options.forEach(option => { option.disabled = false; }); }
+    });
+});
+loadUser();
+
+</script>
+
+</body>
+
+</html>

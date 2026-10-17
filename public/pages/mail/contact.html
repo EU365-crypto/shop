@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/assets/js/shared/session-security.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HongKong Supermarket — Contact</title>
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <script src="/assets/js/shared/store-transition.js"></script>
+<link rel="stylesheet" href="/assets/css/image-viewer.css"></head>
+<body class="signin-page">
+<main class="login-page"><div class="login-box">
+    <div class="auth-heading-row">
+        <a class="auth-return-icon user-return-icon" href="/store.html" data-return-previous="true" aria-label="Return to previous page" title="Return to previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></a>
+        <h1><span class="brand-link">HongKong Supermarket</span></h1>
+    </div>
+    <h2 id="contact-title">Email</h2>
+    <form id="contact-form" class="signin-form" autocomplete="off">
+        <label for="contact-name" data-i18n="fullName">Full Name</label>
+        <input id="contact-name" autocomplete="off" maxlength="100" required>
+        <label for="contact-email" data-i18n="email">Email</label>
+        <div class="contact-email-field">
+            <input id="contact-email" type="email" autocomplete="off" required>
+            <span id="contact-countdown" class="verification-countdown" hidden></span>
+            <button id="contact-send-code" class="contact-code-send" type="button" aria-label="Send verification code" title="Send verification code" hidden>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            </button>
+        </div>
+        <p id="contact-code-status" class="security-send-feedback" role="status" aria-live="polite" hidden></p>
+        <div id="contact-verification" hidden>
+            <label for="contact-code" data-i18n="Verification code">Verification code</label>
+            <input id="contact-code" inputmode="numeric" autocomplete="off" maxlength="6" aria-describedby="contact-status">
+        </div>
+        <div id="contact-image-field">
+            <label for="contact-image" data-i18n="Add image (optional)">Add image (optional)</label>
+            <input id="contact-image" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/avif,.jpg,.jpeg,.png,.webp,.heic,.heif,.avif">
+        </div>
+        <div id="contact-product-request" hidden>
+            <label for="contact-product-name" data-i18n="Product name (optional)">Product name (optional)</label>
+            <input id="contact-product-name" maxlength="200">
+        </div>
+        <div id="contact-message-field">
+            <label for="contact-message" data-i18n="Your Message">Your Message</label>
+            <textarea id="contact-message" rows="6" maxlength="3000" required></textarea>
+        </div>
+        <button id="contact-compose" aria-live="polite" class="signin-submit contact-submit-icon" type="submit" aria-label="Send Message" title="Send Message"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button>
+    </form>
+    <p id="contact-status" role="status"></p>
+</div></main>
+<script src="/assets/js/shared/language.js"></script><script src="/assets/js/mail/message-image-viewer.js"></script><script src="/assets/js/mail/contact-drafts.js"></script><script src="/assets/js/mail/contact.js"></script>
+</body></html>

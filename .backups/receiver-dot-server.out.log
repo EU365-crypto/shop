@@ -1,0 +1,9 @@
+SERVER FILE IS RUNNING
+Google authentication strategy loaded.
+Admin account updated.
+--------------------------------
+HongKong Supermarket running at http://localhost:3000
+Store: http://localhost:3000
+User login: http://localhost:3000/user-login.html
+Admin login: http://localhost:3000/admin-login.html
+--------------------------------

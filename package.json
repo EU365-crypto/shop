@@ -1,0 +1,28 @@
+{
+  "name": "shop",
+  "version": "1.0.0",
+  "description": "HongKong Supermarket storefront, administration, accounts, and support messages",
+  "main": "server.js",
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "start": "node server.js",
+    "email:verify": "node scripts/mail/verify.js --verify",
+    "check": "node scripts/check-project.cjs",
+    "test:browser": "node scripts/verify-message-center.cjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^18.0.6",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "heic-decode": "^2.1.0",
+    "nodemailer": "^10.0.15",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "sharp": "^0.35.5"
+  }
+}

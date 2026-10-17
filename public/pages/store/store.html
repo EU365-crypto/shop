@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" class="store-scrollbars">
+
+<head>
+    <script src="/assets/js/shared/session-security.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HongKong Supermarket</title>
+
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <script src="/assets/js/shared/store-transition.js"></script>
+</head>
+
+<body>
+
+<div class="store-sticky-top">
+<header class="store-menu-header store-header-clear store-header-no-brand">
+    <div class="store-header-left">
+    <div class="welcome-menu">
+        <button id="welcome-menu-toggle" type="button" class="welcome-menu-toggle" aria-label="Menu" title="Menu" aria-expanded="false" aria-controls="welcome-menu-panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <div id="welcome-menu-panel" class="welcome-menu-panel store-menu-drawer" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+            <div class="store-menu-heading"><button id="store-menu-close" type="button" class="store-menu-close" aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button><span class="store-menu-logo" aria-label="HongKong Supermarket">HongKong Supermarket</span></div>
+            <a
+            id="account-link" class="menu-account-link" data-account-icon="true"
+            href="/account"
+            style="display:none;"
+            aria-label="My Account" title="My Account">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="8" r="2.5"/><path d="M6 18a6 4 0 0 1 12 0"/></svg><span data-i18n="myAccount">My Account</span><small id="menu-account-greeting"></small>
+
+        </a>
+            <a id="signin-link" class="menu-signin-button" href="/user-login.html" data-i18n="signIn">Sign In</a>
+            <details class="welcome-menu-partnership welcome-menu-products">
+                <summary><span data-i18n="products">Products</span></summary>
+                <div id="menu-product-categories"></div>
+            </details>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=154%20Beacon%20Dr%2C%20Ste%20A%2C%20Winterville%2C%20NC%2028590" target="_blank" rel="noopener noreferrer" title="154 Beacon Dr, Ste A, Winterville, NC 28590" data-i18n="storeLocation">Store Location</a>
+            <a href="/contact.html?type=email" data-i18n="Email Us">Email</a>
+            <a href="/contact.html?type=request" data-i18n="Order or Item Request">Order or Item Request</a>
+            <details class="welcome-menu-partnership">
+                <summary><span data-i18n="Partnership">Partnership</span></summary>
+                <a href="/contact.html?type=partnership" data-i18n="Partnership Inquiry">Partnership Inquiry</a>
+            </details>
+            <div class="language-switcher menu-language-switcher">
+    <select id="language-select" aria-label="Language" onchange="changeLanguage(this.value)">
+        <option value="en">English</option>
+        <option value="zh">简体中文</option>
+        <option value="vi">Tiếng Việt</option>
+    </select>
+</div>
+            <button id="menu-logout" type="button" class="menu-logout-button" data-i18n="logout" hidden>Log Out</button>
+        </div>
+    </div>
+    <span class="store-hk-logo" aria-label="HongKong Supermarket">HK</span>
+
+    </div>
+
+
+
+    <nav>
+
+        <!-- CART NOW GOES TO SEPARATE PAGE -->
+        
+
+
+        <!-- SIGN IN -->
+        
+
+
+        <!-- SIGN UP -->
+        
+
+
+        <!-- NORMAL USER ONLY -->
+        
+
+
+        <!-- ADMIN ONLY -->
+        
+
+
+        <!-- LOGOUT -->
+        
+
+
+        <!-- LANGUAGE -->
+        
+
+    
+<div class="account-controls">
+
+
+<a id="user-email-link" class="email-notification-link" href="/account/emails" aria-label="Email" title="Email" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4M12 2V1"/></svg></a>
+<a class="store-cart-link" href="/cart.html" aria-label="Cart" title="Cart">
+    <svg class="store-cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h3l3 13h11l3-10H6"/><path d="M8 12h12"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+    <span id="cart-count" class="cart-badge">0</span>
+</a>
+
+
+
+<a id="admin-store-email-link" class="email-notification-link" href="/admin/emails?type=email" aria-label="Admin Email" title="Email" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4M12 2V1"/></svg></a>
+<a
+            id="admin-manage-link"
+            href="/admin/settings"
+            style="display:none;"
+            class="admin-settings-icon" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 3-.5 2.5-2 1.2L4 6l-2 3.5 2 1.7v2.6l-2 1.7L4 19l2.5-.7 2 1.2L9 22h6l.5-2.5 2-1.2L20 19l2-3.5-2-1.7v-2.6l2-1.7L20 6l-2.5.7-2-1.2L15 3z"/><circle cx="12" cy="12.5" r="3.5"/></svg></a>
+
+</div>
+</nav>
+
+</header>
+<div class="store-item-search" role="search">
+    <label class="store-search-field" for="store-item-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+        <input id="store-item-search" type="search" autocomplete="off" data-i18n-placeholder="Search HongKong Supermarket" placeholder="Search HongKong Supermarket" aria-label="Search items">
+    </label>
+    <p id="store-search-status" role="status" aria-live="polite" hidden></p>
+</div>
+</div>
+<div id="store-menu-backdrop" class="store-menu-backdrop" hidden></div>
+
+<section class="store-category-section" hidden>
+    <a id="category-return" class="cart-return-link" href="/store.html" data-i18n="returnProducts" hidden>Return</a>
+    <h2 data-i18n="categorySettings">Product Categories</h2>
+    <div id="category-links" class="store-category-grid" aria-label="Product categories"></div>
+</section>
+
+
+<!-- PRODUCTS ONLY -->
+
+<section id="products">
+
+    <div
+        id="product-container"
+        class="product-container">
+    </div>
+
+</section>
+
+
+
+
+
+<!-- ONLY LOAD SCRIPT.JS ONCE -->
+
+<script src="/assets/js/shared/language.js"></script>
+<script src="/assets/js/store/categories.js"></script>
+<script src="/assets/js/store/product-carousel.js"></script>
+<script src="/assets/js/store/subcategories.js"></script>
+<script src="/assets/js/store/storefront.js"></script>
+<script>
+const itemSearch = document.getElementById('store-item-search');
+const openItemSearch = () => { location.href = '/search.html?q=' + encodeURIComponent(itemSearch.value) + (new URLSearchParams(location.search).get('adminView') === '1' ? '&adminView=1' : ''); };
+itemSearch.addEventListener('focus', openItemSearch);
+itemSearch.addEventListener('input', openItemSearch);
+document.addEventListener('languagechange', () => {
+    itemSearch.setAttribute('aria-label', translateText('Search items'));
+    displayProducts();
+});
+</script>
+
+
+<script>
+
+async function checkLogin() {
+
+    try {
+
+        const response =
+            await fetch(new URLSearchParams(location.search).get('adminView') === '1' ? '/api/admin/me' : '/api/me');
+
+        const data =
+            await response.json();
+        document.body.dataset.customerSignedIn = String(Boolean(data.loggedIn && data.user.role !== 'admin'));
+        document.getElementById('menu-logout').hidden = !data.loggedIn;
+        document.getElementById('admin-store-email-link').style.display = data.loggedIn && data.user.role === 'admin' ? 'inline-flex' : 'none';
+
+
+
+        const signIn =
+            document.getElementById(
+                "signin-link"
+            );
+
+
+
+        const account =
+            document.getElementById(
+                "account-link"
+            );
+
+        const adminManage =
+            document.getElementById(
+                "admin-manage-link"
+            );
+
+
+
+
+        /* NOT LOGGED IN */
+
+        document.getElementById("user-email-link").style.display = data.loggedIn && data.user.role !== "admin" ? "inline-flex" : "none";
+        setAccountGreeting(account, data.loggedIn ? data.user.firstName : "");
+        const greeting = document.getElementById('menu-account-greeting');
+        setAccountGreeting(greeting, data.loggedIn ? data.user.firstName : '');
+
+        if (!data.loggedIn) {
+
+            signIn.style.display =
+                "inline";
+
+            account.style.display =
+                "none";
+
+            adminManage.style.display =
+                "none";
+
+
+
+            return;
+
+        }
+
+
+        /* LOGGED IN */
+
+        signIn.style.display =
+            "none";
+
+
+
+
+        /* ADMIN */
+
+        if (
+            data.user.role === "admin"
+        ) {
+
+            adminManage.style.display =
+                "inline-flex";
+
+            account.style.display =
+                "none";
+
+        }
+
+
+        /* NORMAL USER */
+
+        else {
+
+            adminManage.style.display =
+                "none";
+
+            account.style.display =
+                "inline-flex";
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Login check failed:",
+            error
+        );
+
+    }
+
+}
+
+
+
+
+checkLogin();
+
+</script>
+
+<script src="/assets/js/store/store-menu.js"></script>
+<script src="/assets/js/shared/unsaved-changes.js"></script>
+<script src="/assets/js/admin/admin-store-editor.js"></script>
+<script src="/assets/js/mail/email-badges.js"></script>
+
+</body>
+
+</html>

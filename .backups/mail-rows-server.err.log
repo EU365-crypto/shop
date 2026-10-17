@@ -1,0 +1,2 @@
+◇ injected env (12) from .env
+Using an ephemeral development session secret. Configure SESSION_SECRET to preserve sessions across restarts.

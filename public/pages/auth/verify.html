@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/assets/js/shared/session-security.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HongKong Supermarket — Email Verification</title>
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <script src="/assets/js/shared/store-transition.js"></script>
+</head>
+<body class="signin-page">
+<main class="login-page"><div class="login-box">
+    <div class="auth-heading-row">
+        <a class="auth-return-icon user-return-icon" href="/user-login.html" data-return-direct="true" aria-label="Return to Sign In" title="Return to Sign In"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></a>
+    </div>
+    <h2 id="security-title" data-i18n="Verify Email">Verify Email</h2>
+    <form id="security-form" class="signin-form">
+        <label for="security-email" data-i18n="email">Email</label>
+        <div class="contact-email-field">
+            <input id="security-email" type="email" autocomplete="email" required>
+            <span id="security-countdown" class="verification-countdown" hidden></span>
+        <button id="security-send" type="button" class="contact-code-send" aria-label="Send verification code" title="Send verification code">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            </button>
+        </div>
+        <div class="security-send-feedback">
+            <p id="security-message" role="status" aria-live="polite"></p>
+        </div>
+        <label for="security-code" data-i18n="Verification Code">Verification Code</label>
+        <input id="security-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required>
+        <div id="security-password-fields">
+            <label for="security-password" data-i18n="New Password">New Password</label>
+            <input id="security-password" type="password" autocomplete="new-password" minlength="8" maxlength="72">
+            <label for="security-confirm" data-i18n="confirmPassword">Confirm Password</label>
+            <input id="security-confirm" type="password" autocomplete="new-password" minlength="8" maxlength="72">
+            <label class="password-reveal"><input type="checkbox" autocomplete="off" onchange="document.getElementById('security-password').type = this.checked ? 'text' : 'password'; document.getElementById('security-confirm').type = this.checked ? 'text' : 'password';"><span data-i18n="Show Password">Show Password</span></label>
+        </div>
+        <button type="submit" class="signin-submit" data-i18n="Confirm Code">Confirm Code</button>
+        <p id="security-confirm-message" role="status" aria-live="polite"></p>
+    </form>
+    <p id="security-signin" hidden><a href="/user-login.html" data-i18n="signIn">Sign In</a></p>
+</div></main>
+<script src="/assets/js/shared/language.js"></script><script src="/assets/js/auth/email-security.js"></script>
+</body></html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="/assets/js/shared/session-security.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title data-i18n="adminTitle">HongKong Supermarket Admin</title>
+
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <script src="/assets/js/shared/store-transition.js"></script>
+</head>
+
+<body>
+<div class="admin-settings-tools">
+    <a class="admin-view-store-icon" href="/store.html?adminView=1" aria-label="View Store" title="View Store">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10V6l2-3h14l2 3v4M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0M4 13v8h16v-8M9 21v-6h6v6M3 6h18"/></svg>
+    </a>
+</div>
+
+<!-- ADMIN HEADER -->
+
+
+
+
+
+
+
+
+<main class="admin-unified-settings">
+    <h2 data-i18n="settings">Settings</h2>
+    <form id="admin-settings-form" class="admin-settings-card">
+        <div class="admin-setting-field">
+            <label for="store-tax-rate" data-i18n="Tax (%)">Tax (%)</label>
+            <input id="store-tax-rate" type="number" min="0" max="100" step="0.01" required disabled>
+        </div>
+        <div class="admin-setting-field">
+            <label class="admin-setting-switch"><span data-i18n="Request Limits">Request Limits</span><input id="email-limit-enabled" type="checkbox" role="switch" disabled></label>
+            <p data-i18n="Enable request limits for email verification, password resets, and contact messages.">Enable request limits for email verification, password resets, and contact messages.</p>
+        </div>
+        <button id="admin-settings-save" type="submit" data-i18n="Save" disabled>Save</button>
+        <p id="admin-settings-message" role="status" aria-live="polite"></p>
+    </form>
+</main>
+<script src="/assets/js/shared/language.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/assets/js/admin/admin-settings-form.js"></script>
+</body>
+
+</html>

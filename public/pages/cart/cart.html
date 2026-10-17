@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="/assets/js/shared/session-security.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title data-i18n="HongKong Supermarket Cart">HongKong Supermarket Cart</title>
+
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <script src="/assets/js/shared/store-transition.js"></script>
+</head>
+
+<body class="cart-summary-page">
+
+<header class="cart-page-header">
+
+    <nav>
+
+
+        
+
+        
+
+        
+
+        
+
+        
+
+    
+<div class="account-controls">
+
+
+
+<a
+            id="admin-manage-link"
+            href="/admin"
+            style="display:none;" data-i18n="manageProducts">
+            Manage Products
+        </a>
+
+</div>
+</nav>
+
+</header>
+
+
+<!-- CART -->
+
+<section id="cart">
+
+    <a class="cart-return-link user-return-icon" href="/store.html" aria-label="Return" title="Return"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></a>
+
+    <details class="cart-order-summary" open>
+        <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 3h3l3 13h11l3-10H6"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg><span data-i18n="Order Summary">Order Summary</span><span id="cart-summary-count">(0)</span></summary>
+        <div class="cart-items-heading"><h2 data-i18n="Items">Items</h2><a href="/store.html"><span aria-hidden="true">+</span> <span data-i18n="Add more items">Add more items</span></a></div>
+
+    <div id="cart-items">
+
+        <p data-i18n="Your cart is empty.">Your cart is empty.</p>
+
+    </div>
+
+
+    </details>
+
+    <div class="cart-total">
+
+        <h3>
+            <span data-i18n="Subtotal:">Subtotal:</span>
+            <span class="summary-amount">$<span id="total">0.00</span></span>
+        </h3>
+
+        <p><span data-i18n="Tax:">Tax:</span><span class="summary-amount">$<span id="cart-tax">0.00</span></span></p>
+        <h3 class="summary-grand-total"><span data-i18n="Total:">Total:</span><span class="summary-amount">$<span id="cart-grand-total">0.00</span></span></h3>
+        <button class="cart-checkout-action" onclick="showCheckout()"><span data-i18n="proceedCheckout">Proceed to Checkout</span><span>$<span id="checkout-button-total">0.00</span></span></button>
+
+    </div>
+
+</section>
+
+
+<!-- CHECKOUT -->
+
+<section
+    id="checkout"
+    class="hidden">
+
+    <h2 data-i18n="checkout">Checkout</h2>
+
+    <p data-i18n="checkoutIntro">Enter your email and shipping details to check out. No sign-in required.</p>
+
+
+    <div class="checkout-container">
+
+
+        <!-- SHIPPING -->
+
+        <div class="checkout-box">
+
+            <h3 data-i18n="shippingInformation">
+                Shipping Information
+            </h3>
+
+
+            <label data-i18n="fullName">
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="John Smith"
+            >
+
+
+            <label data-i18n="email">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                required
+                autocomplete="email"
+                placeholder="john@email.com"
+            >
+
+
+            <label data-i18n="address">
+                Address
+            </label>
+
+            <input
+                type="text"
+                id="address"
+                placeholder="123 Main Street"
+            >
+
+
+            <label data-i18n="city">
+                City
+            </label>
+
+            <input
+                type="text"
+                id="city"
+                placeholder="Raleigh"
+            >
+
+
+            <label data-i18n="state">
+                State
+            </label>
+
+            <input
+                type="text"
+                id="state"
+                placeholder="NC"
+            >
+
+
+            <label data-i18n="zip">
+                ZIP Code
+            </label>
+
+            <input
+                type="text"
+                id="zip"
+                placeholder="27601"
+            >
+
+        </div>
+
+
+        <!-- PAYMENT -->
+
+        <div class="checkout-box">
+
+            <h3 data-i18n="payment">
+                Payment
+            </h3>
+
+            <p class="demo-warning" data-i18n="DEMO PAYMENT — no real card is charged.">
+                DEMO PAYMENT — no real card is charged.
+            </p>
+
+
+            <label data-i18n="Name on Card">
+                Name on Card
+            </label>
+
+            <input
+                type="text"
+                id="card-name"
+                placeholder="John Smith"
+            >
+
+
+            <label data-i18n="Card Number">
+                Card Number
+            </label>
+
+            <input
+                type="text"
+                id="card-number"
+                placeholder="1234 5678 9012 3456"
+            >
+
+
+            <div class="payment-row">
+
+                <div>
+
+                    <label data-i18n="Expiration">
+                        Expiration
+                    </label>
+
+                    <input
+                        type="text"
+                        id="expiration"
+                        placeholder="MM/YY" data-i18n-placeholder="MM/YY"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label data-i18n="CVV">
+                        CVV
+                    </label>
+
+                    <input
+                        type="password"
+                        id="cvv"
+                        placeholder="123"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="order-summary">
+
+                <h3 data-i18n="orderSummary">
+                    Order Summary
+                </h3>
+
+                <p>
+                    <span data-i18n="Subtotal:">Subtotal:</span>
+                    <span class="summary-amount">$<span id="checkout-subtotal">0.00</span></span>
+                </p>
+
+                <p data-i18n="Shipping: FREE">
+                    Shipping: FREE
+                </p>
+
+                <p><span data-i18n="Tax:">Tax:</span><span class="summary-amount">$<span id="checkout-tax">0.00</span></span></p>
+                <p class="summary-grand-total"><strong data-i18n="Total:">Total:</strong><strong class="summary-amount">$<span id="checkout-total">0.00</span></strong></p>
+            </div>
+            <button
+                class="pay-button"
+                onclick="processPayment()" data-i18n="payNow">
+                Pay Now
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SUCCESS -->
+
+<section
+    id="success"
+    class="success hidden">
+
+    <h2 data-i18n="✅ Order Successful!">
+        ✅ Order Successful!
+    </h2>
+
+    <p data-i18n="Thank you for your purchase.">
+        Thank you for your purchase.
+    </p>
+
+    <p><span data-i18n="Order Number:">
+        Order Number:
+        </span><strong id="order-number"></strong>
+    </p>
+
+    <button onclick="continueShopping()" data-i18n="continueShopping">
+        Continue Shopping
+    </button>
+
+</section>
+
+
+<script src="/assets/js/shared/language.js"></script>
+<script src="/assets/js/store/storefront.js"></script>
+
+<script>
+
+async function checkLogin() {
+    try {
+        const response = await fetch('/api/me');
+        const data = await response.json();
+        const isAdmin = data.loggedIn && data.user.role === 'admin';
+        document.querySelector('.cart-page-header').hidden = !isAdmin;
+        document.getElementById('admin-manage-link').style.display = isAdmin ? 'inline' : 'none';
+    } catch (error) { console.error(error); }
+}
+
+
+
+
+checkLogin();
+
+</script>
+
+
+</body>
+
+</html>

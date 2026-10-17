@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="/assets/js/shared/session-security.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title data-i18n="HongKong Supermarket User Login">HongKong Supermarket User Login</title>
+
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <script src="/assets/js/shared/store-transition.js"></script>
+</head>
+
+<body class="signin-page">
+
+<section class="login-page">
+
+    <div class="login-box auth-header-return">
+
+        <div class="auth-heading-row">
+            <a class="auth-return-icon user-return-icon" href="/store.html" data-return-direct="true" aria-label="Return to Store" title="Return to Store"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></a>
+            <h1><span class="brand-link">HongKong Supermarket</span></h1>
+        </div>
+
+
+        
+
+        <nav class="auth-form-tabs" aria-label="Account access">
+    <a href="/user-login.html" data-i18n="signIn" aria-current="page">Sign In</a>
+    <a href="/signup.html" data-i18n="signUp">Sign Up</a>
+</nav>
+
+
+<!-- GOOGLE LOGIN -->
+
+<a
+    class="social-login-button google-login"
+    href="/auth/google"
+>
+    <img class="google-brand-icon" src="/assets/images/google-logo.svg" width="20" height="20" alt="" aria-hidden="true">
+    <span data-i18n="googleLogin">Continue with Google</span>
+</a>
+
+
+<div class="login-divider">
+    <span data-i18n="or">or</span>
+</div>
+
+        <form class="signin-form" onsubmit="event.preventDefault(); login();">
+        <p id="message" class="signin-status" role="status" aria-live="polite"></p>
+        <label for="email" data-i18n="email">Email</label>
+        <input
+            id="email"
+            type="email"
+            autocomplete="email"
+            required
+            placeholder="Email" data-i18n-placeholder="email"
+        >
+
+        <label for="password" data-i18n="password">Password</label>
+        <input
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            required
+            placeholder="Password" data-i18n-placeholder="password"
+        >
+
+        <label class="password-reveal"><input type="checkbox" autocomplete="off" onchange="document.getElementById('password').type = this.checked ? 'text' : 'password';"><span data-i18n="Show Password">Show Password</span></label>
+        <button type="submit" class="signin-submit" data-i18n="signIn">
+            Sign In
+        </button>
+
+        </form>
+        <p><a href="/verify.html?purpose=reset" data-i18n="Forgot Password?">Forgot Password?</a></p>
+
+    </div>
+
+</section>
+
+<script src="/assets/js/shared/language.js"></script>
+<script src="/assets/js/auth/auth-validation.js"></script>
+<script src="/assets/js/store/storefront.js"></script>
+
+<script>
+
+async function login() {
+
+    const email =
+        document.getElementById("email").value;
+
+    const password =
+        document.getElementById("password").value;
+
+    const message =
+        document.getElementById("message");
+
+
+    if (
+        email === "" ||
+        password === ""
+    ) {
+
+        setLocalizedMessage(message, "Please enter your email and password.");
+
+        return;
+    }
+
+
+    setLocalizedMessage(message, "Signing in...");
+    message.classList.remove('signin-success', 'signin-error');
+    message.classList.add('signin-loading');
+    const signingInStarted = performance.now();
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/user-login",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (data.success) {
+            const remaining = Math.max(0, 1500 - (performance.now() - signingInStarted));
+            if (remaining) await new Promise(resolve => window.setTimeout(resolve, remaining));
+            message.classList.remove('signin-loading');
+            message.classList.add('signin-success');
+            setLocalizedMessage(message, "signIn");
+            await new Promise(resolve => window.setTimeout(resolve, 600));
+            const destination = new URL(data.redirect, location.origin);
+            destination.searchParams.delete('welcome');
+            window.location.href =
+                destination.pathname + destination.search + destination.hash;
+
+        } else {
+
+            message.classList.remove('signin-loading', 'signin-success');
+            message.classList.add('signin-error');
+            setLocalizedMessage(message, data.message);
+
+        }
+
+    }
+
+    catch (error) {
+
+        message.classList.remove('signin-loading', 'signin-success');
+        console.error(error);
+
+        setLocalizedMessage(message, "Could not connect to server.");
+
+    }
+
+}
+
+</script>
+
+<script>
+if (new URLSearchParams(location.search).get('error') === 'google') {
+    const message = document.getElementById('message');
+    if (message) setLocalizedMessage(message, 'Google sign-in failed. Please try again in your browser.');
+}
+</script>
+</body>
+
+</html>

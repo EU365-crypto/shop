@@ -1,0 +1,9 @@
+.mc-image-viewer { position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: #101914; color: white; }
+.mc-image-viewer::backdrop { background: #101914; }
+.mc-image-toolbar { height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 16px; }
+.mc-image-toolbar > button:first-child { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; }
+.mc-image-close { font-size: 28px; min-width: 44px; }
+.mc-image-viewport { height: calc(100% - 64px); overflow: auto; overscroll-behavior: contain; padding: 12px; }
+.mc-image-viewport img { display: block; margin: auto; max-width: none; max-height: none; }
+.mc-image-viewport.fit { display: flex; justify-content: center; align-items: center; }
+.mc-image-viewport.fit img { max-width: 100%; max-height: 100%; object-fit: contain; }

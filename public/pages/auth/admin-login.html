@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="/assets/js/shared/session-security.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title data-i18n="HongKong Supermarket Admin Login">HongKong Supermarket Admin Login</title>
+
+    <link rel="stylesheet" href="/assets/css/site.css">
+    <script src="/assets/js/shared/store-transition.js"></script>
+</head>
+
+<body class="signin-page admin-signin-page">
+
+<section class="login-page">
+
+    <div class="login-box auth-language-bottom">
+
+        <h1><span class="brand-link">HongKong Supermarket</span></h1>
+
+        <h2 data-i18n="adminLogin">Admin Login</h2>
+
+        <p data-i18n="Management access only">Management access only</p>
+
+        <form class="signin-form" onsubmit="event.preventDefault(); adminLogin();">
+        <label for="email" data-i18n="Email or Username">Email or Username</label>
+        <input
+            id="email"
+            type="text"
+            autocomplete="username"
+            name="email"
+            required
+            placeholder="Email or Username" data-i18n-placeholder="Email or Username"
+        >
+
+        <label for="password" data-i18n="password">Password</label>
+        <input
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            name="password"
+            required
+            placeholder="Admin Password" data-i18n-placeholder="Admin Password"
+        >
+
+        <label class="password-reveal"><input type="checkbox" autocomplete="off" onchange="document.getElementById('password').type = this.checked ? 'text' : 'password';"><span data-i18n="Show Password">Show Password</span></label>
+        <button type="submit" class="signin-submit" data-i18n="adminSignIn">
+            Sign In as Admin
+        </button>
+        </form>
+
+        <p id="message" role="status" aria-live="polite"></p>
+
+        <div class="auth-footer-row">
+            <a class="auth-return-icon" href="/store.html" data-return-direct="true" aria-label="Return to Store" title="Return to Store"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 5-7 7 7 7"/><path d="M5 12h14"/></svg></a>
+            <div class="language-switcher">
+                <select id="language-select" aria-label="Language" onchange="changeLanguage(this.value)">
+                    <option value="en">English</option>
+                    <option value="zh">简体中文</option>
+                    <option value="vi">Tiếng Việt</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<script src="/assets/js/shared/language.js"></script>
+<script src="/assets/js/auth/auth-validation.js"></script>
+<script>
+
+async function adminLogin() {
+
+    const email =
+        document.getElementById("email").value;
+
+    const password =
+        document.getElementById("password").value;
+
+    const message =
+        document.getElementById("message");
+
+
+    setLocalizedMessage(message, "Signing in...");
+
+
+    try {
+
+        const response =
+            await fetch("/api/admin-login", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+
+            });
+
+
+        const data =
+            await response.json();
+
+
+        if (data.success) {
+
+            window.location.href = "/store.html?adminView=1";
+
+        } else {
+
+            setLocalizedMessage(message, data.message);
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        setLocalizedMessage(message, "Could not connect to server.");
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
